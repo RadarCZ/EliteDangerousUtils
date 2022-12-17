@@ -151,7 +151,7 @@ export class GalaxyMapWatcher extends EventEmitter {
         this.lastPage++;
       }
     } catch (err) {
-      this.emit('error', err);
+      this.emit('error', err as Error);
     } finally {
       const baseDelay = (this.fetchCycle > 0 ? this.options.additionalDelay || this.options.delay : 0);
       const cycleDelay = this.lastPage === 0 ? this.options.cycleDelay : 0;

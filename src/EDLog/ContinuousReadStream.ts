@@ -4,12 +4,13 @@ import { Readable, ReadableOptions } from 'stream';
 /**
  * Stream that allows continiously reading from a file that is procedually being (via append etc).
  */
-export class ContinuesReadStream extends Readable {
-  private closed = false;
+export class ContinuousReadStream extends Readable {
+  closed = false;
   private offset = 0;
   private file?: number;
   private poll?: NodeJS.Timer;
   private buffer?: Buffer;
+
   constructor(
     public readonly fileName: string,
     opts?: ReadableOptions,

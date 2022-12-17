@@ -222,13 +222,13 @@ export interface CookieStore {
 }
 
 export class InvalidCredentialsError extends Error {
-  constructor(public resp: Response<any>) {
+  constructor(public resp: Response) {
     super('Invalid credentials');
   }
 }
 
 export class VerificationError extends Error {
-  constructor(public resp: Response<any>) {
+  constructor(public resp: Response) {
     super('Invalid verification code');
   }
 }
@@ -251,7 +251,6 @@ const enum HTTPStatus {
 export class EDCompanionAPI {
   private apiURL = 'https://companion.orerve.net/';
   private requestOptions: Partial<Options> = {
-    followRedirect: false,
     headers: {
       'User-Agent':
         // tslint:disable-next-line:max-line-length
@@ -275,27 +274,26 @@ export class EDCompanionAPI {
    * This may invoke the `ICredentialsFetcher`s `getLogin` and `getCode` if no cookie is provided.
    */
   public async getProfile(): Promise<APIResponseRoot> {
-    const response = await this.request<APIResponseRoot>({
-      json: true,
-      uri: 'profile',
+    const response = await this.request({
+      url: "profile"
     });
     if (
-      response.statusCode === HTTPStatus.MovedPermanently &&
+      response.status === HTTPStatus.MovedPermanently &&
       response.headers.location === '/user/login'
     ) {
       await this.login();
       return this.getProfile();
     }
-    return response.body;
+    return response.data;
   }
 
   /**
    * Helper method to run a request on the API.
    */
-  private async request<T>(opts: Options): Promise<Response<T>> {
-    opts.uri = `${this.apiURL}${opts.uri}`;
+  private async request(opts: Options): Promise<Response> {
+    opts.url = `${this.apiURL}${opts.url}`;
     Object.assign(opts, this.requestOptions);
-    return this.httpRequest.request<T>(opts);
+    return this.httpRequest.axios(opts);
   }
 
   /**
@@ -304,18 +302,19 @@ export class EDCompanionAPI {
    */
   private async confirm() {
     const code = await this.credentialFetcher.getCode();
-    const response = await this.request<string>({
-      form: {
-        code,
-      },
-      method: 'post',
-      uri: 'user/confirm',
+    const response = await this.request({
+      method: 'POST',
+      url: 'user/confirm',
+      data: { code },
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
     });
-    if (response.statusCode === HTTPStatus.MovedPermanently && response.headers.location === '/') {
+    if (response.status === HTTPStatus.MovedPermanently && response.headers.location === '/') {
       return response;
     }
 
-    if (response.body.includes('errorSummary')) {
+    if (response.data.includes('errorSummary')) {
       throw new VerificationError(response);
     }
 
@@ -329,9 +328,12 @@ export class EDCompanionAPI {
   private async login(): Promise<void> {
     const credentials = this.credentialFetcher.getLogin();
     const response = await this.request({
-      form: credentials,
-      method: 'post',
-      uri: 'user/login',
+      data: credentials,
+      method: 'POST',
+      url: 'user/login',
+      headers: {
+        "Content-Type": "x-www-form-urlencoded"
+      }
     });
     if (response.headers.location === '/user/confirm') {
       await this.confirm();

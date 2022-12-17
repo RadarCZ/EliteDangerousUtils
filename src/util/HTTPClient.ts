@@ -1,4 +1,8 @@
 import { default as axios, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { CookieJar } from 'tough-cookie';
+
+export type Options = AxiosRequestConfig & { jar?: CookieJar };
+export type Response = AxiosResponse;
 
 export class HTTPError extends Error {
   constructor(public response: AxiosResponse) {

@@ -59,10 +59,10 @@ export class Client {
   constructor(private httpClient: HTTPClient, private apiKey?: string) {}
 
   public async getSystemsInCube(query: SystemsQuery): Promise<SystemQueryResponse[]> {
-    return (await this.request<SystemQueryResponse[]>({
-      qs: this.buildSystemQuery(query),
-      uri: '/api-v1/cube-systems',
-    })).body;
+    return (await this.request({
+      params: this.buildSystemQuery(query),
+      url: '/api-v1/cube-systems',
+    })).data;
   }
 
   public async locationToSystem(position: Coordinate): Promise<string> {
@@ -74,12 +74,12 @@ export class Client {
   }
 
   public async getCommanderMapPage(page: number, language = 'en'): Promise<CommandMapPage> {
-    return (await this.request<CommandMapPage>({
+    return (await this.request({
       headers: {
         'x-requested-with': 'XMLHttpRequest',
       },
-      uri: `/${language}/map/users/live/p/${page}`,
-    })).body;
+      url: `/${language}/map/users/live/p/${page}`,
+    })).data;
   }
 
   public async getCommanderMap(language = 'en'): Promise<CommanderMapEntry[]> {
@@ -98,19 +98,18 @@ export class Client {
     return this.getCommanderMapInternal(language, currentPage + 1, data);
   }
 
-  private async request<T>(opts: Options): Promise<Response<T>> {
-    opts.uri = `https://www.edsm.net${opts.uri}`;
-    opts.json = true;
+  private async request(opts: Options): Promise<Response> {
+    opts.url = `https://www.edsm.net${opts.url}`;
     opts.headers = opts.headers || {};
     opts.headers.referer = 'https://www.edsm.net/en/map/users';
     opts.headers['x-requested-with'] = 'XMLHttpRequest';
     if (this.apiKey) {
-      if (!opts.qs) {
-        opts.qs = {};
+      if (!opts.params) {
+        opts.params = {};
       }
-      opts.qs.apiKey = this.apiKey;
+      opts.params.apiKey = this.apiKey;
     }
-    return this.httpClient.request<T>(opts);
+    return this.httpClient.axios(opts);
   }
 
   private buildSystemQuery(query: SystemsQuery): RawSystemQuery {

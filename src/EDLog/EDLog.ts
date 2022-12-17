@@ -3,7 +3,7 @@ import { FSWatcher, readFileSync, statSync, watch } from 'fs';
 import { join } from 'path';
 import { createInterface, ReadLine } from 'readline';
 import { findLast } from '../util/findLast';
-import { ContinuesReadStream } from './ContinousReadStream';
+import { ContinuousReadStream } from './ContinuousReadStream';
 import { directory } from './directory';
 import { EDEvent } from './EDEvent';
 import { EDLogReader } from './EDLogReader';
@@ -389,7 +389,7 @@ export interface EDLog {
 }
 
 export class EDLog extends EventEmitter {
-  private fileStream?: ContinuesReadStream;
+  private fileStream?: ContinuousReadStream;
   private fileName?: string;
   private lineStream?: ReadLine;
   private backlog?: EDEvent[];
@@ -507,7 +507,7 @@ export class EDLog extends EventEmitter {
     });
 
     this.fileName = file;
-    this.fileStream = new ContinuesReadStream(file);
+    this.fileStream = new ContinuousReadStream(file);
     this.fileStream.on('error', error => this.emit('warn', error));
     if (skip) {
       this.fileStream.seekToEnd();
