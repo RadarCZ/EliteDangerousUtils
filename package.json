@@ -1,20 +1,19 @@
 {
   "author": {
-    "name": "Simon Schick",
-    "email": "demwizzy@gmail.com",
-    "url": "https://github.com/SimonSchick"
+    "name": "Lukáš 'Radar' Kubíček",
+    "email": "kubicek@radarsoft.cz",
+    "url": "https://github.com/RadarCZ"
   },
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "name": "elite-dangerous-utils",
-  "version": "2.0.0",
-  "description": "Collection of utilities to interactive with the Elite: Dangerous game client and the 'Companion' App API",
+  "version": "3.0.0",
+  "description": "Collection of utilities to interact with the Elite: Dangerous game client and the 'Companion' App API",
   "dependencies": {
-    "request": "^2.88.2"
+    "axios": "^1.2.1"
   },
   "devDependencies": {
     "@types/node": "^12.12.53",
-    "@types/request": "^2.48.5",
     "jsonschema": "^1.2.6",
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
@@ -26,7 +25,7 @@
     "typescript-json-schema": "^0.42.0"
   },
   "engines": {
-    "node": "^6.0.0"
+    "node": "^18.12.0"
   },
   "keywords": [
     "Elite: Dangerous",

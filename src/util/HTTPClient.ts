@@ -1,11 +1,8 @@
-import * as request from 'request';
-
-export type Response<T> = request.RequestResponse & { body: T };
-export type Options = request.OptionsWithUri;
+import { default as axios, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 export class HTTPError extends Error {
-  constructor(public response: Response<any>) {
-    super(`Request failed with status code ${response.statusCode}.`);
+  constructor(public response: AxiosResponse) {
+    super(`Request failed with status code ${response.status}.`);
   }
 }
 export class ClientError extends HTTPError {}
@@ -21,30 +18,30 @@ export class ServerError extends HTTPError {}
 export class InternalServerError extends ServerError {}
 
 export class HTTPClient {
-  public static Jar() {
-    return request.jar();
-  }
+  public async axios(opts: AxiosRequestConfig): Promise<AxiosResponse> {
+    return new Promise<AxiosResponse>(async (resolve, reject) => {
+      try {
+        const response = await axios(opts);
+        const error = this.generateError(response);
 
-  public async request<T>(opts: Options): Promise<Response<T>> {
-    return new Promise<Response<T>>((resolve, reject) => {
-      request(opts, (error, response: Response<T>) => {
-        error = error || this.generateError(response);
-        if (error) {
-          reject(error);
-          return;
+        if (!error) {
+          resolve(response)
+        } else {
+          throw error
         }
-        resolve(response);
-      });
+      } catch (err) {
+        reject(err)
+      }
     });
   }
 
-  private generateError(response: Response<any>): HTTPError | void {
-    const { statusCode } = response;
-    if (!statusCode) {
+  private generateError(response: AxiosResponse): HTTPError | void {
+    const { status } = response;
+    if (!status) {
       throw new Error('Failed with no status code');
     }
-    if (statusCode < 200 || statusCode >= 300) {
-      switch (statusCode) {
+    if (status < 200 || status >= 300) {
+      switch (status) {
         case 400:
           return new BadRequest(response);
         case 401:
@@ -58,10 +55,10 @@ export class HTTPClient {
         case 500:
           return new InternalServerError(response);
         default:
-          if (statusCode > 500) {
+          if (status > 500) {
             return new ServerError(response);
           }
-          if (statusCode > 400) {
+          if (status > 400) {
             return new ClientError(response);
           }
       }
