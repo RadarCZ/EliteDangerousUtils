@@ -6,9 +6,9 @@
   },
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
-  "name": "elite-dangerous-utils",
+  "name": "ed-utils",
   "version": "3.0.0",
-  "description": "Collection of utilities to interact with the Elite: Dangerous game client and the 'Companion' App API",
+  "description": "Collection of utilities to interact with the Elite: Dangerous game client and the 'Companion' App API.",
   "dependencies": {
     "axios": "^1.2.1",
     "axios-cookiejar-support": "^4.0.3"

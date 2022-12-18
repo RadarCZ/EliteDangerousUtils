@@ -166,9 +166,6 @@ Removed event:
  - update `say`
 
 # 3.0.0
- - There have been a LOT of changes, enumerating them would be very time consuming, here is an idea:
- - Using TS 3.0
- - Ditches `I` prefix for interfaces entirely
- - Got rid of lodash
- - Waaaay more events
- - Support for new dynamically updated files
+ - updated TS to 4.9
+ - updated bunch of dependencies
+ - ditched deprecated library `request`
