@@ -1,8 +1,14 @@
-# ed-utils
-[![npm version](https://badge.fury.io/js/ed-utils.svg)](https://badge.fury.io/js/ed-utils)
+# ed-log-reader
+![GitHub](https://img.shields.io/github/license/radarcz/ed-log-reader?style=for-the-badge)
+![npm](https://img.shields.io/npm/v/ed-log-reader?style=for-the-badge)
+![GitHub last commit](https://img.shields.io/github/last-commit/radarcz/ed-log-reader?style=for-the-badge)
 
-Collection of components that allow interacting with [Elite: Dangerous JSON Log JSON API](https://forums.frontier.co.uk/attachment.php?attachmentid=112608&d=1477509102])
-and the Companion API.
+![node-current](https://img.shields.io/node/v/ed-log-reader?style=for-the-badge)
+![npm dev dependency version](https://img.shields.io/npm/dependency-version/ed-log-reader/dev/typescript?style=for-the-badge)
+
+![Mastodon Follow](https://img.shields.io/mastodon/follow/109387591320006293?domain=https%3A%2F%2Fgomastodon.cz&style=social)
+![Twitter Follow](https://img.shields.io/twitter/follow/datradar?style=social)
+
 
 #### I strongly suggest using typescript for consumption of this library.
 #### Due to the amount of different objects and log types not all typings may be available, feel free to make a pull request!
@@ -53,8 +59,6 @@ log.on('file', ev => console.log(ev.file))
 log.on('event', ev => console.log(ev));
 log.start();
 ```
-./
-For a more complex demo see [demo folder](demo).
 
 ### Events
 
@@ -69,47 +73,6 @@ For a more complex demo see [demo folder](demo).
 For all other docs please see the `.ts` files.
 
 ---
-
-# EDCompanionAPI
-
-EDCompanionAPI is a basic is a basic client wrapper around their companion API that handles login and requests but still requires user credentials.
-
-Please use this with care, avoid too many requests to Frontiers API and avoid logging in too often.
-
-### Simple demo
-
-```typescript
-import { EDCompanionAPI } from 'elite-dangerous-utils';
-import * as FileCookieStore from 'tough-cookie-filestore';
-import { createInterface } from 'readline';
-
-function readLineAsync (prompt: string): Promise<string> {
-    return new Promise<string>(resolve => {
-        const int = createInterface(process.stdin, process.stdout);
-        int.question(prompt, response => {
-            int.close();
-            resolve(response);
-        });
-    });
-}
-
-const api = new EDCompanionAPI(new FileCookieStore('cookies.json'), {
-    getLogin () {
-        return {
-            email: 'my@awesomeemail.com',
-            password: 'XxXelitehaxxorXxX',
-        };
-    },
-    getCode () {
-        return readLineAsync('Please enter code: ');
-    }
-});
-api.getProfile()
-.then(console.log)
-.catch(console.error);
-```
-
-For a _slighty_ more complex demo see [demo folder](demo).
 
 ### Docs
 
