@@ -1849,3 +1849,13 @@ export interface SingleCommunityGoal {
 export interface CommunityGoal {
 
 }
+
+export interface ScanOrganic extends EventBase {
+  ScanType: string,
+  Genus: string,
+  Genus_Localised: string,
+  Species: string,
+  Species_Localised: string,
+  SystemAddress: number,
+  Body: number
+}

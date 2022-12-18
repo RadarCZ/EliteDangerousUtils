@@ -3,15 +3,19 @@ import { join } from 'path';
 import { RawLog } from './EDEvent';
 
 export class EDLogReader {
-  public static readonly fileMatcher = /Journal\.(\d+)\.\d+.log$/;
+  public static readonly fileMatcher = /^Journal\.\d{4}-\d{2}-\d{2}T\d{6}\.\d{2}\.log$/;
   private files?: string[];
 
   public fetchFiles(directory: string) {
-    return (this.files = readdirSync(directory)
-      .map(fileName => EDLogReader.fileMatcher.exec(fileName))
-      .filter(match => !!match)
-      .sort((a, b) => Number(a![1]) - Number(b![1]))
-      .map(matcher => matcher![0]));
+    const files = readdirSync(directory).filter(file => EDLogReader.fileMatcher.test(file));
+    files.sort((a, b) => {
+      const dateMatcher = /\d{4}-\d{2}-\d{2}T\d{6}/
+      const aDate = new Date(a.match(dateMatcher)![0]);
+      const bDate = new Date(b.match(dateMatcher)![0]);
+      return aDate.valueOf() - bDate.valueOf();
+    })
+    this.files = files;
+    return files
   }
 
   public read(directory: string, useCachedFiles = true): RawLog[] {

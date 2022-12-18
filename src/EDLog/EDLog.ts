@@ -146,6 +146,7 @@ import {
   SAAScanComplete,
   Scan,
   Scanned,
+  ScanOrganic,
   Screenshot,
   SearchAndRescue,
   SelfDestruct,
@@ -371,6 +372,7 @@ export interface GameEvents {
   'event:Outfitting': Outfitting;
   'event:ModulesInfo': ModulesInfo;
   'event:Status': Status;
+  'event:ScanOrganic': ScanOrganic;
 }
 
 export type Events = {

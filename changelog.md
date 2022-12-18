@@ -169,3 +169,6 @@ Removed event:
  - updated TS to 4.9
  - updated bunch of dependencies
  - ditched deprecated library `request`
+
+# 3.0.4
+ - add support for `ScanOrganic` event
