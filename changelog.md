@@ -14,3 +14,6 @@
 
 # 1.0.2
  - add support for `SAASignalsFound` event
+
+# 1.0.3
+ - updated readme

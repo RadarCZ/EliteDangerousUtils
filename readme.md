@@ -1,13 +1,13 @@
 # ed-log-reader
-![GitHub](https://img.shields.io/github/license/radarcz/ed-log-reader?style=for-the-badge)
-![npm](https://img.shields.io/npm/v/ed-log-reader?style=for-the-badge)
-![GitHub last commit](https://img.shields.io/github/last-commit/radarcz/ed-log-reader?style=for-the-badge)
+[![GitHub](https://img.shields.io/github/license/radarcz/ed-log-reader?style=for-the-badge)](https://github.com/RadarCZ/ed-log-reader/blob/master/LICENSE)
+[![npm](https://img.shields.io/npm/v/ed-log-reader?style=for-the-badge)](https://www.npmjs.com/package/ed-log-reader)
+[![GitHub last commit](https://img.shields.io/github/last-commit/radarcz/ed-log-reader?style=for-the-badge)](https://github.com/RadarCZ/ed-log-reader)
 
-![node-current](https://img.shields.io/node/v/ed-log-reader?style=for-the-badge)
-![npm dev dependency version](https://img.shields.io/npm/dependency-version/ed-log-reader/dev/typescript?style=for-the-badge)
+[![node-current](https://img.shields.io/node/v/ed-log-reader?style=for-the-badge)](https://nodejs.org/dist/v19.3.0/)
+[![npm dev dependency version](https://img.shields.io/npm/dependency-version/ed-log-reader/dev/typescript?style=for-the-badge)](https://www.npmjs.com/package/typescript)
 
-![Mastodon Follow](https://img.shields.io/mastodon/follow/109387591320006293?domain=https%3A%2F%2Fgomastodon.cz&style=social)
-![Twitter Follow](https://img.shields.io/twitter/follow/datradar?style=social)
+[![Mastodon Follow](https://img.shields.io/mastodon/follow/109387591320006293?domain=https%3A%2F%2Fgomastodon.cz&style=social)](https://gomastodon.cz/@datradar)
+[![Twitter Follow](https://img.shields.io/twitter/follow/datradar?style=social)](https://twitter.com/DatRadar)
 
 
 #### I strongly suggest using typescript for consumption of this library.
